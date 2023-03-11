@@ -99,7 +99,7 @@ jobs:
       - name: "Cert Generation"
         id: cert
         run: |
-          export DOMAIN_NAME_AKS_BASELINE="contoso.com"
+          export DOMAIN_NAME_AKS_BASELINE="web-luxenhofer.de"
           export CN="bicycle"
           openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out appgw.crt -keyout appgw.key -subj "/CN=${CN}.${DOMAIN_NAME_AKS_BASELINE}/O=Contoso Bicycle" -addext "subjectAltName = DNS:${CN}.${DOMAIN_NAME_AKS_BASELINE}" -addext "keyUsage = digitalSignature" -addext "extendedKeyUsage = serverAuth"
           openssl pkcs12 -export -out appgw.pfx -in appgw.crt -inkey appgw.key -passout pass:
@@ -110,7 +110,7 @@ jobs:
           echo "AKS_INGRESS_CONTROLLER_CERTIFICATE=$AKS_INGRESS_CONTROLLER_CERTIFICATE_BASE64_AKS_BASELINE" >> $GITHUB_ENV
 
       - name: Azure Login
-        uses: Azure/login@v1.4.3
+        uses: Azure/login@v1.4.6
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
