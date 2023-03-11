@@ -34,7 +34,7 @@ jobs:
     name: Prerequisite Checks
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -90,7 +90,7 @@ jobs:
     needs: [prereqs]
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
