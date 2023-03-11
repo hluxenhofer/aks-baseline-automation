@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "westus2"
+            "value": "germanywestcentral"
         },
         "clusterAdminAadGroupObjectId": {
             "value": ""
@@ -12,16 +12,16 @@
             "value": ""
         },
         "domainName": {
-            "value": "contoso.com"
+            "value": "web-luxenhofer.de"
         },
         "kubernetesVersion": {
-            "value": "1.23.8"
+            "value": "1.26"
         },
         "gitOpsBootstrappingRepoHttpsUrl": {
-            "value": "https://github.com/Azure/aks-baseline-automation"
+            "value": "https://github.com/hluxenhofer/aks-baseline-automation"
         },
         "gitOpsBootstrappingRepoBranch": {
-            "value": "main"
+            "value": "custom-test"
         }
     }
 }

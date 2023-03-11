@@ -139,7 +139,7 @@ module acrAks '../CARML/Microsoft.ContainerRegistry/registries/deploy.bicep' = {
   params: {
     name: 'acraks${subRgUniqueString}'
     location: location
-    acrSku: 'Premium'
+    acrSku: 'Basic'
     acrAdminUserEnabled: false
     networkRuleSetDefaultAction: 'Deny'
     networkRuleSetIpRules: []
@@ -151,12 +151,12 @@ module acrAks '../CARML/Microsoft.ContainerRegistry/registries/deploy.bicep' = {
     dataEndpointEnabled: true
     networkRuleBypassOptions: 'AzureServices'
     zoneRedundancy: 'Disabled' // This Preview feature only supports three regions at this time, and eastus2's paired region (centralus), does not support this. So disabling for now.
-    replications: [
-      {
-        name: geoRedundancyLocation
-        location: geoRedundancyLocation
-      }
-    ]
+    // replications: [
+    //   {
+    //     name: geoRedundancyLocation
+    //     location: geoRedundancyLocation
+    //   }
+    // ]
     diagnosticWorkspaceId: laAks.outputs.resourceId
     // unfortunately deploying the endpoint here will fail for the first run
     // privateEndpoints: [

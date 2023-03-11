@@ -223,13 +223,13 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
     primaryAgentPoolProfile: [
       {
         name: 'npsystem'
-        count: 3
-        vmSize: 'Standard_DS3_v2'
+        count: 1
+        vmSize: 'Standard_B2s'
         osDiskSizeGB: 80
         osDiskType: 'Ephemeral'
         osType: 'Linux'
-        minCount: 3
-        maxCount: 4
+        minCount: 1
+        maxCount: 2
         vnetSubnetID: vnetNodePoolSubnetResourceId
         enableAutoScaling: true
         type: 'VirtualMachineScaleSets'
@@ -240,11 +240,11 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
         enableNodePublicIP: false
         maxPods: 30
         enableAzureRBAC: true
-        availabilityZones: [
-          '1'
-          '2'
-          '3'
-        ]
+        // availabilityZones: [
+        //   '1'
+        //   '2'
+        //   '3'
+        // ]
         upgradeSettings: {
           maxSurge: '33%'
         }
@@ -257,12 +257,12 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
       {
         name: 'npuser01'
         count: 2
-        vmSize: 'Standard_DS3_v2'
+        vmSize: 'Standard_B2s'
         osDiskSizeGB: 120
         osDiskType: 'Ephemeral'
         osType: 'Linux'
-        minCount: 2
-        maxCount: 5
+        minCount: 1
+        maxCount: 3
         vnetSubnetID: vnetNodePoolSubnetResourceId
         enableAutoScaling: true
         enableAzureRbac: true
@@ -272,12 +272,12 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
         scaleSetEvictionPolicy: 'Delete'
         orchestratorVersion: kubernetesVersion
         enableNodePublicIP: false
-        maxPods: 30
-        availabilityZones: [
-          '1'
-          '2'
-          '3'
-        ]
+        maxPods: 10
+        // availabilityZones: [
+        //   '1'
+        //   '2'
+        //   '3'
+        // ]
         upgradeSettings: {
           maxSurge: '33%'
         }
@@ -441,76 +441,76 @@ module monitoringMetricsPublisherRole '../CARML/Microsoft.ContainerService/manag
   ]
 }
 
-module kubernetesConfigurationFlux '../CARML/Microsoft.KubernetesConfiguration/extensions/deploy.bicep' = {
-  name: 'flux'
-  params: {
-    name: 'flux'
-    location: location
-    extensionType: 'microsoft.flux'
-    clusterName: cluster.name
-    releaseTrain: 'Stable'
-    releaseNamespace: 'flux-system'  
-    configurationSettings: {
-      'helm-controller.enabled': 'false'
-      'source-controller.enabled': 'true'
-      'kustomize-controller.enabled': 'true'
-      'notification-controller.enabled': 'false'
-      'image-automation-controller.enabled': 'false'
-      'image-reflector-controller.enabled': 'false'
-    }
-  }
-  scope: resourceGroup(resourceGroupName)
-  dependsOn: [
-    rg
-    cluster
-    acrPullRole
-  ]
-}
+// module kubernetesConfigurationFlux '../CARML/Microsoft.KubernetesConfiguration/extensions/deploy.bicep' = {
+//   name: 'flux'
+//   params: {
+//     name: 'flux'
+//     location: location
+//     extensionType: 'microsoft.flux'
+//     clusterName: cluster.name
+//     releaseTrain: 'Stable'
+//     releaseNamespace: 'flux-system'  
+//     configurationSettings: {
+//       'helm-controller.enabled': 'false'
+//       'source-controller.enabled': 'true'
+//       'kustomize-controller.enabled': 'true'
+//       'notification-controller.enabled': 'false'
+//       'image-automation-controller.enabled': 'false'
+//       'image-reflector-controller.enabled': 'false'
+//     }
+//   }
+//   scope: resourceGroup(resourceGroupName)
+//   dependsOn: [
+//     rg
+//     cluster
+//     acrPullRole
+//   ]
+// }
 
-module kubernetesConfigurationFlux2 '../CARML/Microsoft.KubernetesConfiguration/fluxConfigurations/deploy.bicep' = {
-  name: 'flux2'
-  params: {
-    scope: 'cluster'
-    name: 'flux2'
-    location: location
-    namespace: 'flux-system'
-    clusterName: cluster.name
-    sourceKind: 'GitRepository'
-    gitRepository: {
-      url: gitOpsBootstrappingRepoHttpsUrl
-      timeoutInSeconds: 180
-      syncIntervalInSeconds: 300
-      repositoryRef: {
-        branch: gitOpsBootstrappingRepoBranch
-        tag: null
-        semver: null
-        commit: null
-      }
-      sshKnownHosts: ''
-      httpsUser: null
-      httpsCACert: null
-      localAuthRef: null
-    }
-    kustomizations: {
-      unified: {
-        path: './shared-services'
-        dependsOn: []
-        timeoutInSeconds: 300
-        syncIntervalInSeconds: 300
-        retryIntervalInSeconds: null
-        prune: true
-        force: false
-      }
-    }
-  }
-  scope: resourceGroup(resourceGroupName)
-  dependsOn: [
-    rg
-    cluster
-    acrPullRole
-    kubernetesConfigurationFlux
-  ]
-}
+// module kubernetesConfigurationFlux2 '../CARML/Microsoft.KubernetesConfiguration/fluxConfigurations/deploy.bicep' = {
+//   name: 'flux2'
+//   params: {
+//     scope: 'cluster'
+//     name: 'flux2'
+//     location: location
+//     namespace: 'flux-system'
+//     clusterName: cluster.name
+//     sourceKind: 'GitRepository'
+//     gitRepository: {
+//       url: gitOpsBootstrappingRepoHttpsUrl
+//       timeoutInSeconds: 180
+//       syncIntervalInSeconds: 300
+//       repositoryRef: {
+//         branch: gitOpsBootstrappingRepoBranch
+//         tag: null
+//         semver: null
+//         commit: null
+//       }
+//       sshKnownHosts: ''
+//       httpsUser: null
+//       httpsCACert: null
+//       localAuthRef: null
+//     }
+//     kustomizations: {
+//       unified: {
+//         path: './shared-services'
+//         dependsOn: []
+//         timeoutInSeconds: 300
+//         syncIntervalInSeconds: 300
+//         retryIntervalInSeconds: null
+//         prune: true
+//         force: false
+//       }
+//     }
+//   }
+//   scope: resourceGroup(resourceGroupName)
+//   dependsOn: [
+//     rg
+//     cluster
+//     acrPullRole
+//     kubernetesConfigurationFlux
+//   ]
+// }
 
 module clusterSystemTopic '../CARML/Microsoft.EventGrid/systemTopics/deploy.bicep' = {
   name: 'clusterSystemTopic'
