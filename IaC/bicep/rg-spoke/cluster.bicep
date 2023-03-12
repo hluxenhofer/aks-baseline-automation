@@ -226,7 +226,7 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
         count: 1
         vmSize: 'Standard_B2s'
         osDiskSizeGB: 80
-        osDiskType: 'Ephemeral'
+        osDiskType: 'Managed'
         osType: 'Linux'
         minCount: 1
         maxCount: 2
@@ -259,7 +259,7 @@ module cluster '../CARML/Microsoft.ContainerService/managedClusters/deploy.bicep
         count: 2
         vmSize: 'Standard_B2s'
         osDiskSizeGB: 120
-        osDiskType: 'Ephemeral'
+        osDiskType: 'Managed'
         osType: 'Linux'
         minCount: 1
         maxCount: 3
