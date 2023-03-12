@@ -15,7 +15,7 @@
             "value": "web-luxenhofer.de"
         },
         "kubernetesVersion": {
-            "value": "1.26"
+            "value": "1.25"
         },
         "gitOpsBootstrappingRepoHttpsUrl": {
             "value": "https://github.com/hluxenhofer/aks-baseline-automation"
