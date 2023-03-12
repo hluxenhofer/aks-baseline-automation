@@ -38,35 +38,35 @@ param resourceGroupName string = 'rg-bu0001a0008'
 @description('AKS Service, Node Pool, and supporting services (KeyVault, App Gateway, etc) region. This needs to be the same region as the vnet provided in these parameters.')
 param location string = 'eastus2'
 
-// @allowed([
-//   'australiaeast'
-//   'australiasoutheast'
-//   'canadacentral'
-//   'canadaeast'
-//   'centralus'
-//   'eastasia'
-//   'eastus'
-//   'eastus2'
-//   'francecentral'
-//   'francesouth'
-//   'germanynorth'
-//   'germanywestcentral'
-//   'japanwest'
-//   'northcentralus'
-//   'northeurope'
-//   'southafricanorth'
-//   'southafricawest'
-//   'southcentralus'
-//   'southeastasia'
-//   'uksouth'
-//   'ukwest'
-//   'westcentralus'
-//   'westeurope'
-//   'westus'
-//   'westus2'
-// ])
-// @description('For Azure resources that support native geo-redunancy, provide the location the redundant service will have its secondary. Should be different than the location parameter and ideally should be a paired region - https://learn.microsoft.com/azure/best-practices-availability-paired-regions. This region does not need to support availability zones.')
-// param geoRedundancyLocation string = 'centralus'
+@allowed([
+  'australiaeast'
+  'australiasoutheast'
+  'canadacentral'
+  'canadaeast'
+  'centralus'
+  'eastasia'
+  'eastus'
+  'eastus2'
+  'francecentral'
+  'francesouth'
+  'germanynorth'
+  'germanywestcentral'
+  'japanwest'
+  'northcentralus'
+  'northeurope'
+  'southafricanorth'
+  'southafricawest'
+  'southcentralus'
+  'southeastasia'
+  'uksouth'
+  'ukwest'
+  'westcentralus'
+  'westeurope'
+  'westus'
+  'westus2'
+])
+@description('For Azure resources that support native geo-redunancy, provide the location the redundant service will have its secondary. Should be different than the location parameter and ideally should be a paired region - https://learn.microsoft.com/azure/best-practices-availability-paired-regions. This region does not need to support availability zones.')
+param geoRedundancyLocation string = 'centralus'
 
 /*** VARIABLES ***/
 
@@ -151,12 +151,12 @@ module acrAks '../CARML/Microsoft.ContainerRegistry/registries/deploy.bicep' = {
     dataEndpointEnabled: true
     networkRuleBypassOptions: 'AzureServices'
     zoneRedundancy: 'Disabled' // This Preview feature only supports three regions at this time, and eastus2's paired region (centralus), does not support this. So disabling for now.
-    // replications: [
-    //   {
-    //     name: geoRedundancyLocation
-    //     location: geoRedundancyLocation
-    //   }
-    // ]
+    replications: [
+      {
+        name: geoRedundancyLocation
+        location: geoRedundancyLocation
+      }
+    ]
     diagnosticWorkspaceId: laAks.outputs.resourceId
     // unfortunately deploying the endpoint here will fail for the first run
     // privateEndpoints: [
